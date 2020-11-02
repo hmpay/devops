@@ -4,23 +4,40 @@
 
 `devops` is a steps of how to archive the devops target for `hmpay` system.
 
-![](./assets/design.png)
+![](./docs/assets/deploy.png)
 
-## Table of Contents
-- [Background](#background)
-- [Install](#install)
-- [Usage](#usage)
-- [Maintainers](#maintainers)
-- [Contributing](#contributing)
-- [License](#license)
+## Table Of Content
+
+<!-- TOC updateOnSave:true -->autoauto- [devops](#devops)auto    - [Background](#background)    - [Steps for how to init machines.](#steps-for-how-to-init-machines)auto        - [Init Jumping Machine SSH Login And User](#init-jumping-machine-ssh-login-and-user)auto        - [Init `huser` for all machine from cloud console](#init-huser-for-all-machine-from-cloud-console)auto            - [init the ssh config for `huser` user](#init-the-ssh-config-for-huser-user)auto        - [Login `huser` for all machine from ops machine](#login-huser-for-all-machine-from-ops-machine)auto        - [Init Docker Env for all machines](#init-docker-env-for-all-machines)auto        - [asdasd](#asdasd)auto    - [Maintainers](#maintainers)auto    - [Contributing](#contributing)auto    - [License](#license)<!-- /TOC -->
 
 ## Background
 
-## Install
+Here is a big, complex system. Below is the deploy detail diagram.
 
-### Step1. Init Jumping Machine SSH Login And User
+<img width="100%" src="./docs/assets/deploy-detail.png">
 
-```bash
+### Common Commands
+
+
+```sh
+# open the firewall service
+systemctl start firewalld
+
+# stop the firewall service
+systemctl stop firewalld
+
+# view the open port list
+firewall-cmd --zone=public --list-ports
+
+# restart docker server
+systemctl restart docker
+```
+
+## Steps for how to init machines
+
+### Init SSH Login And User for jumping Machine
+
+```sh
 # login from from cloud console and execute.
 cat "xxxxxxx" > /root/.ssh/authorized_keys
 
@@ -38,26 +55,9 @@ cat "xxxxxxx" > /home/huser/.ssh/authorized_keys
 
 > login to other machines that can ssh login from jumping machine.
 
-### Step2. Init `huser` for all machine from cloud console
+#### Init the ssh config for `huser` user for jumping Machine
 
-> add the huser from cloud console
-```bash
-hostname hm-api
-
-rm -rf /root/.ssh/authorized_keys
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDv4961KtLBq9L2KY3VeB1U4Th8gOqHjvnpMJSV8SDyLDGTa5sYKp6ZDn3gVp4X7NUhI8zGZ7PE3CEIygi86jfa4S6Pwe4gQV7dE7KQWJ+j36Zw+rU1YoYIkHfGWfzOcWL1/TFkTdYaNxj+nAeUAEF1lRAD5jmv9hw7ZICDrUYQLYGY1l81ogyPUI9YM5STn3F+ZeqX9Foj5gqB2XfgLw1WIANT9A2yu8oGeD3nu5TZGIVafvZFA7f/wfmndtDlVW3nR+5Ebe71v8tqGHc3ZhNViElS0/1jTJpczCEW3XE5WOAwNBirV+1lKQ9ov1ktekDYPEEtID3TJjT1kD9mPzSqGRZC5Ikp3bDkBqMeZOOA3g63ckfWr7+6HEUxrvgs1kJygIc+GbFEgZtiTIVwyygLC9rCZFLbQbgK87sz7J1tTK6roPCP8d3RVAmKRo0tCkGzoFNRdS8PXRQnTdwEEA1U4ZNp/QV8X3zxVtgE87FMUp09lqdIGCanBZmUYL0i/us= root@iZuf6dcz9uks340jahtx57Z" > /root/.ssh/authorized_keys
-
-useradd huser;groupadd huser
-su huser
-mkdir /home/huser/.ssh
-rm -rf /home/huser/.ssh/authorized_keys
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIOs9Y7Eb4BRwtx53zW2RLW9Hei+3lvi53p0vDMwKGuiBfsRfeuGrMqviiONLJy5t18ST0ghYwJpY4xUSXTERCaOK1oluhMC8a2XzBc4lPi18T1dZ9wapy4zTmwcKwnpuzty/qBzDghHOCctUGhGynQW9e0zVlkJ0tqupGBKdcFrnAtQdvRkDEfy9D/PAyAlFmxtVUXgX3Af6p4LZv4aoZcncjh3KyYe7cewrCTSWbchgyqDg5Kh5oKMPhfUCjyjR3LneubGpWquWUMgUI4069QwsbfvigeTro65W7ZY/4ETyJJ2YM6v9RTlcg9+iIppuOiViDOKGIFDw4H8cHTtvt097ADqv7dnWL5uZsCGEKcT/uA37tZx7uT6i8U5p8qS91Gov6F6+f3xMkTD4mOsJxjIkfrK5YCQWC/Cxhk9xfTi9hkki85Sxa8V5RiCbhHoU8vGIbVD+MY1ZAoF+7YfBT9zG4N5cOIuWMxSAor5UxB1Q1MYTdjC1jRpT6WpgjdaM= huser@iZuf6dcz9uks340jahtx57Z" > /home/huser/.ssh/authorized_keys
-
-chmod 600 /home/huser/.ssh/authorized_keys
-```
-
-#### init the ssh config for huser user
-```bash
+```sh
 echo "\
 Host hm-slb
 Hostname 172.19.182.202
@@ -81,18 +81,38 @@ User huser" > /home/huser/.ssh/config
 chmod 600 /home/huser/.ssh/config
 ```
 
-add `huser` to sudoers file
+### Init `huser` user for all machines
 
-```bash
+> add the huser from cloud console
+```sh
+
+rm -rf /root/.ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDv4961KtLBq9L2KY3VeB1U4Th8gOqHjvnpMJSV8SDyLDGTa5sYKp6ZDn3gVp4X7NUhI8zGZ7PE3CEIygi86jfa4S6Pwe4gQV7dE7KQWJ+j36Zw+rU1YoYIkHfGWfzOcWL1/TFkTdYaNxj+nAeUAEF1lRAD5jmv9hw7ZICDrUYQLYGY1l81ogyPUI9YM5STn3F+ZeqX9Foj5gqB2XfgLw1WIANT9A2yu8oGeD3nu5TZGIVafvZFA7f/wfmndtDlVW3nR+5Ebe71v8tqGHc3ZhNViElS0/1jTJpczCEW3XE5WOAwNBirV+1lKQ9ov1ktekDYPEEtID3TJjT1kD9mPzSqGRZC5Ikp3bDkBqMeZOOA3g63ckfWr7+6HEUxrvgs1kJygIc+GbFEgZtiTIVwyygLC9rCZFLbQbgK87sz7J1tTK6roPCP8d3RVAmKRo0tCkGzoFNRdS8PXRQnTdwEEA1U4ZNp/QV8X3zxVtgE87FMUp09lqdIGCanBZmUYL0i/us= root@iZuf6dcz9uks340jahtx57Z" > /root/.ssh/authorized_keys
+
+useradd huser;groupadd huser
+su huser
+mkdir /home/huser/.ssh
+rm -rf /home/huser/.ssh/authorized_keys
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIOs9Y7Eb4BRwtx53zW2RLW9Hei+3lvi53p0vDMwKGuiBfsRfeuGrMqviiONLJy5t18ST0ghYwJpY4xUSXTERCaOK1oluhMC8a2XzBc4lPi18T1dZ9wapy4zTmwcKwnpuzty/qBzDghHOCctUGhGynQW9e0zVlkJ0tqupGBKdcFrnAtQdvRkDEfy9D/PAyAlFmxtVUXgX3Af6p4LZv4aoZcncjh3KyYe7cewrCTSWbchgyqDg5Kh5oKMPhfUCjyjR3LneubGpWquWUMgUI4069QwsbfvigeTro65W7ZY/4ETyJJ2YM6v9RTlcg9+iIppuOiViDOKGIFDw4H8cHTtvt097ADqv7dnWL5uZsCGEKcT/uA37tZx7uT6i8U5p8qS91Gov6F6+f3xMkTD4mOsJxjIkfrK5YCQWC/Cxhk9xfTi9hkki85Sxa8V5RiCbhHoU8vGIbVD+MY1ZAoF+7YfBT9zG4N5cOIuWMxSAor5UxB1Q1MYTdjC1jRpT6WpgjdaM= huser@iZuf6dcz9uks340jahtx57Z" > /home/huser/.ssh/authorized_keys
+
+chmod 600 /home/huser/.ssh/authorized_keys
+
+add `huser` to sudoers file
+```
+
+```sh
 vi /etc/sudoers
 
 # below root    ALL=(ALL)       ALL
 huser   ALL=(ALL)       ALL
+
+# set the machine hostname
+hostnamectl set-hostname xxx
 ```
 
-### Step3. Login `huser` for all machine from ops machine
+### Login `huser` for all machine from jumping machine
 
-```bash
+```sh
 # login to ops machine
 
 # use pwd or add public key
@@ -104,8 +124,9 @@ ssh hm-biz
 ssh hm-api
 ```
 
-### step4. Init Docker Env
-```bash
+### Init Docker Env for all machines
+
+```sh
 sudo yum remove docker \
                   docker-client \
                   docker-client-latest \
@@ -126,9 +147,32 @@ newgrp docker
 docker run hello-world
 ```
 
-```
+```sh
+# goto hm-slb machine
 docker swarm init
-# docker swarm join --token SWMTKN-1-4p8du2pv1sbc2xuzp2d5pyuwpjuh1yd281x7gg4m4ih5237fjr-7qpfeio2jkcv1jf2ueto5nlhy 172.19.182.199:2377
+# run below commands.
+docker swarm join --token SWMTKN-1-0ig31djibvuzn0ekq8fhxbatuzlfaklizk92eqxspio4v7kr2i-bzrs71ou4xli8yhdwka85924a 172.19.182.202:2377
+
+# To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+```
+
+### Init Nexus3 for `hm-ops` machine
+
+```sh
+# goto hm-ops
+
+# pull the nexus3 image
+docker pull sonatype/nexus3
+# prepare for mount data dir
+mkdir -p /home/huser/nexus-data
+
+docker run -d -p 8081:8081 --name nexus3 -v /home/huser/nexus-data --restart=always sonatype/nexus3
+
+# enter container inner
+docker exec -it  4e6a7bd6289d /bin/sh
+
+# cat the passwd for UI login
+cat /nexus-data/admin.password
 ```
 
 ## Maintainers
