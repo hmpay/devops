@@ -156,7 +156,7 @@ docker swarm join --token SWMTKN-1-0ig31djibvuzn0ekq8fhxbatuzlfaklizk92eqxspio4v
 # To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 ```
 
-### Init Nexus3 for `hm-ops` machine
+### :book:Init Nexus3 for `hm-ops` machine
 
 ```sh
 # goto hm-ops
@@ -174,6 +174,9 @@ docker exec -it  4e6a7bd6289d /bin/sh
 # cat the passwd for UI login
 cat /nexus-data/admin.password
 ```
+
+> :pencil2:Exercise:
+> @alex
 
 ## Maintainers
 
