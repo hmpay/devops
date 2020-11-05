@@ -1,4 +1,4 @@
-# devops
+# devops1
 
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-green.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
@@ -6,9 +6,15 @@
 
 ![](./docs/assets/deploy.png)
 
+![](./docs/assets/ci-cd.png)
+
 ## Table Of Content
 
-<!-- TOC updateOnSave:true -->autoauto- [devops](#devops)auto    - [Background](#background)    - [Steps for how to init machines.](#steps-for-how-to-init-machines)auto        - [Init Jumping Machine SSH Login And User](#init-jumping-machine-ssh-login-and-user)auto        - [Init `huser` for all machine from cloud console](#init-huser-for-all-machine-from-cloud-console)auto            - [init the ssh config for `huser` user](#init-the-ssh-config-for-huser-user)auto        - [Login `huser` for all machine from ops machine](#login-huser-for-all-machine-from-ops-machine)auto        - [Init Docker Env for all machines](#init-docker-env-for-all-machines)auto        - [asdasd](#asdasd)auto    - [Maintainers](#maintainers)auto    - [Contributing](#contributing)auto    - [License](#license)<!-- /TOC -->
+- [devops](#devops)
+  - [Table Of Content](#table-of-content)
+  - [Background](#background)
+  - [Common Commands](#common-commands)
+  - [Steps for how to init machines](#steps-for-how-to-init-machines)
 
 ## Background
 
@@ -16,7 +22,7 @@ Here is a big, complex system. Below is the deploy detail diagram.
 
 <img width="100%" src="./docs/assets/deploy-detail.png">
 
-### Common Commands
+## Common Commands
 
 
 ```sh
@@ -33,9 +39,19 @@ firewall-cmd --zone=public --list-ports
 systemctl restart docker
 ```
 
+## Ports
+
+> 8*** is for web service
+> 5*** is for api service
+
++ 8080 nexus3 web
++ 5000 nexus3 docker repository
++ 8082 jenkins web
+
 ## Steps for how to init machines
 
 ### Init SSH Login And User for jumping Machine
+
 
 ```sh
 # login from from cloud console and execute.
@@ -55,7 +71,7 @@ cat "xxxxxxx" > /home/huser/.ssh/authorized_keys
 
 > login to other machines that can ssh login from jumping machine.
 
-#### Init the ssh config for `huser` user for jumping Machine
+#### Init the ssh config for `huser` user for jumping Machine1
 
 ```sh
 echo "\
@@ -164,15 +180,37 @@ docker swarm join --token SWMTKN-1-0ig31djibvuzn0ekq8fhxbatuzlfaklizk92eqxspio4v
 # pull the nexus3 image
 docker pull sonatype/nexus3
 # prepare for mount data dir
-mkdir -p /home/huser/nexus-data
+rm -rf ~/nexus-data
 
-docker run -d -p 8081:8081 --name nexus3 -v /home/huser/nexus-data --restart=always sonatype/nexus3
+docker run -d -p 8081:8081 --name nexus3 -v ~/nexus-data --restart=always sonatype/nexus3
 
 # enter container inner
 docker exec -it  4e6a7bd6289d /bin/sh
 
 # cat the passwd for UI login
-cat /nexus-data/admin.password
+cat ~/nexus-data/admin.password
+```
+
+> :pencil2: Exercise:
+> @alex
+
+### :book: Init Jenkins for `hm-ops` machine
+
+```sh
+# goto hm-ops
+
+# pull the nexus3 image
+docker pull jenkinszh/jenkins-zh:lts
+# prepare for mount data dir
+rm -rf jenkins-data
+
+docker run -d --name jenkins -p 8082:8080 -p 5001:50000  --env JENKINS_SLAVE_AGENT_PORT=5001 -v ~/jenkins-data:/var/jenkins_home jenkinszh/jenkins-zh:lts
+
+# enter container inner
+docker exec -it  2280deb6025e sh
+
+# cat the passwd for UI admin login
+cat ~/jenkins-data/secrets/initialAdminPassword
 ```
 
 > :pencil2: Exercise:
