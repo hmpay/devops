@@ -74,8 +74,8 @@ eg.
 service-name      | port
 ---               | ---
 ops-nginx         | 9011
+ops-nexus         | 9021
 ops-jekins        | 9011
-ops-nexus         | 9031
 ops-nexus-docker  | 9032
 
 ## Steps for how to init machines
@@ -247,7 +247,7 @@ docker pull jenkinszh/jenkins-zh:lts
 # prepare for mount data dir
 rm -rf jenkins-data
 
-docker run -d --name jenkins -p 8082:8080 -p 5001:50000  --env JENKINS_SLAVE_AGENT_PORT=5001 -v ~/jenkins-data:/var/jenkins_home jenkinszh/jenkins-zh:lts
+docker run -d --name jenkins -p 8082:8080 -p 5001:50000  --env JENKINS_SLAVE_AGENT_PORT=5001 -v /var/jenkins_home jenkinszh/jenkins-zh:lts
 
 # enter container inner
 docker exec -it  2280deb6025e sh
