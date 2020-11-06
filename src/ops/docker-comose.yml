@@ -4,7 +4,7 @@ services:
   nginx:
     image: nginx
     ports:
-      - "9001:80"
+      - "9011:80"
     # environment:
     #   - NGINX_HOST: "ops"
     deploy:
@@ -19,6 +19,7 @@ services:
     image: sonatype/nexus3
     ports:
       - "9021:8081"
+      - "9022:5000"
     volumes: 
       - ~/volumes/nexus3-data:/nexus-data  
     deploy:

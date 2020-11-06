@@ -73,10 +73,10 @@ eg.
 
 service-name      | port
 ---               | ---
-ops-jekins        | 90011
-ops-nginx         | 90021
-ops-nexus         | 90031
-ops-nexus-docker  | 90032
+ops-nginx         | 9011
+ops-jekins        | 9011
+ops-nexus         | 9031
+ops-nexus-docker  | 9032
 
 ## Steps for how to init machines
 
