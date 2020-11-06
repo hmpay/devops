@@ -9,11 +9,6 @@ services:
     #   - NGINX_HOST: "ops"
     deploy:
       mode: global
-      placement:
-        constraints:
-          - node.labels.biz_layer==ops
-      restart_policy:
-        condition: on-failure
   # https://hub.docker.com/r/sonatype/nexus3      
   nexus3:
     image: sonatype/nexus3
@@ -24,11 +19,6 @@ services:
       - ~/volumes/nexus3-data:/nexus-data  
     deploy:
       mode: global
-      placement:
-        constraints:
-          - node.labels.biz_layer==ops
-      restart_policy:
-        condition: on-failure
   # https://hub.docker.com/r/jenkinszh/jenkins-zh      
   jenkins:
     image: jenkinszh/jenkins-zh:lts
@@ -39,11 +29,6 @@ services:
       - ~/volumes/jenkins-data:/var/jenkins_home
     deploy:
       mode: global
-      placement:
-        constraints:
-          - node.labels.biz_layer==ops
-      restart_policy:
-        condition: on-failure  
 
 
 
