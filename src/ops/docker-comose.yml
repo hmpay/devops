@@ -1,10 +1,10 @@
 version: "3.8"
 services:
   # https://hub.docker.com/_/nginx
-  opsNginx:
+  nginx:
     image: nginx
     ports:
-      - "90011:80"
+      - "9001:80"
     # environment:
     #   - NGINX_HOST: "ops"
     deploy:
@@ -12,14 +12,13 @@ services:
       placement:
         constraints:
           - node.labels.biz_layer==ops
-      replicas: 1
       restart_policy:
         condition: on-failure
   # https://hub.docker.com/r/sonatype/nexus3      
   nexus3:
     image: sonatype/nexus3
     ports:
-      - "90021:8081"
+      - "9021:8081"
     volumes: 
       - ~/volumes/nexus3-data:/nexus-data  
     deploy:
@@ -27,15 +26,14 @@ services:
       placement:
         constraints:
           - node.labels.biz_layer==ops
-      replicas: 1
       restart_policy:
         condition: on-failure
   # https://hub.docker.com/r/jenkinszh/jenkins-zh      
   jenkins:
     image: jenkinszh/jenkins-zh:lts
     ports:
-      - "90031:8080"
-      - "90032:50000"
+      - "9031:8080"
+      - "9032:50000"
     volumes: 
       - ~/volumes/jenkins-data:/var/jenkins_home
     deploy:
@@ -43,7 +41,6 @@ services:
       placement:
         constraints:
           - node.labels.biz_layer==ops
-      replicas: 1
       restart_policy:
         condition: on-failure  
 
