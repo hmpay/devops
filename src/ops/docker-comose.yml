@@ -38,6 +38,14 @@ services:
       - "90032:50000"
     volumes: 
       - ~/volumes/jenkins-data:/var/jenkins_home
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.labels.biz_layer==ops
+      replicas: 1
+      restart_policy:
+        condition: on-failure  
 
 
 
