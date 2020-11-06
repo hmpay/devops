@@ -41,13 +41,14 @@ systemctl restart docker
 
 ## Host Machine Expose Port Rules:
 
-**${Namespace(1)}${ServiceName(3)}${Channel(1)}**
++ **${Namespace(1)}${ServiceName(3)}${Channel(1)}**
 
 + Namespace: is a code for indicating an enviroment. range from[1-9].
 
 eg.
 
 > **9**xxxx: ops enviroment
+
 > **5**xxxx: biz enviroment
 
 + ServiceName: is a code for a service(application). range from[001-999].
@@ -55,7 +56,9 @@ eg.
 eg.
 
 > 9**001**x: ops-jekins
+
 > 9**002**x: ops-jekins
+
 > 9**003**x: ops-nexus
 
 + Channel: is a code for a sub-application. range from[1-9].
@@ -63,6 +66,7 @@ eg.
 eg.
 
 > 9**003**1: ops-nexus-web
+
 > 9**003**2: ops-nexus-docker-repository
 
 ## Steps for how to init machines
