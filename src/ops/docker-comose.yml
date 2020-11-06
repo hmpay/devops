@@ -5,8 +5,8 @@ services:
     image: nginx
     ports:
       - "90011:80"
-    environment:
-      - NGINX_HOST: ops
+    # environment:
+    #   - NGINX_HOST: "ops"
     deploy:
       mode: global
       placement:
