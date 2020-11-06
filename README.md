@@ -39,7 +39,7 @@ firewall-cmd --zone=public --list-ports
 systemctl restart docker
 ```
 
-## Host Machine Expose Port Rules:
+## Host Machine Expose Port Rules
 
 **${Namespace(1)}${ServiceName(3)}${Channel(1)}**
 
@@ -69,7 +69,7 @@ eg.
 
 > 9**003**2: ops-nexus-docker-repository
 
-### List if Ports:
+### List if Ports
 
 service-name      | port
 ---               | ---
@@ -80,7 +80,7 @@ ops-nexus-docker  | 90032
 
 ## Steps for how to init machines
 
-### Init SSH Login And User for jumping Machine
+### Init Git, SSH Login And User for jumping Machine
 
 
 ```sh
@@ -97,6 +97,9 @@ su huser
 ssh-keygen -t rsa
 
 cat "xxxxxxx" > /home/huser/.ssh/authorized_keys
+
+
+yum install git -y
 ```
 
 > login to other machines that can ssh login from jumping machine.

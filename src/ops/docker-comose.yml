@@ -6,7 +6,7 @@ services:
     ports:
       - "90011:80"
     environment:
-      - NGINX_HOST: ${OPS_NGINX_HOST_NAME}
+      - NGINX_HOST: ops
     deploy:
       mode: global
       placement:
