@@ -41,12 +41,14 @@ systemctl restart docker
 
 ## Ports
 
-> 8*** is for web service
-> 5*** is for api service
+> *1*** is for web service
+> *2*** is for api service
+> 7**** is for biz service
+> 9**** is for ops service
 
-+ 8080 nexus3 web
-+ 5000 nexus3 docker repository
-+ 8082 jenkins web
+Here is the port list for all service:
+
++ 
 
 ## Steps for how to init machines
 
