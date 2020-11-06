@@ -71,8 +71,6 @@ eg.
 
 ### List if Ports:
 
-+ ops-jekins
-
 service-name      | port
 ---               | ---
 ops-jekins        | 90011
