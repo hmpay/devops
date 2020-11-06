@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  # bizNginx
+  bizNginx:
+    image: nginx
+    ports:
+      - "50011:80"
+    environment:
+      - NGINX_HOST: ${API_NGINX_HOST_NAME}
+    deploy:
+      endpoint_mode: dnsrr
+      mode: replicated
+      placement:
+        constraints:
+          - node.labels.biz_layer==slb
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+
+
+
+

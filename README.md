@@ -202,6 +202,16 @@ docker swarm join --token SWMTKN-1-0ig31djibvuzn0ekq8fhxbatuzlfaklizk92eqxspio4v
 # To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 ```
 
+### Init Swarm Node for all machines
+
+```sh
+docker node update --label-add biz_layer=slb hm-slb
+docker node update --label-add biz_layer=api hm-api
+docker node update --label-add biz_layer=biz hm-biz
+docker node update --label-add biz_layer=base hm-base
+docker node update --label-add biz_layer=db hm-db
+```
+
 ### :book: Init Nexus3 for `hm-ops` machine
 
 ```sh
