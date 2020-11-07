@@ -1,7 +1,6 @@
 version: "3.8"
 services:
-  # bizNginx
-  bizNginx:
+  nginx:
     image: nginx
     ports:
       - "50011:80"
@@ -16,8 +15,5 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
-
-
-
 
 

@@ -16,7 +16,7 @@ services:
       - "9021:8081"
       - "9022:5000"
     volumes: 
-      - /nexus-data  
+      - /nexus-data
     deploy:
       mode: global
   # https://hub.docker.com/r/jenkinszh/jenkins-zh      
