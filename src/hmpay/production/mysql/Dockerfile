@@ -1,26 +1,12 @@
-FROM mariadb
+FROM mysql:5.7
 
-ENV MYSQL_ROOT_PASSWORD 123456
-ENV MYSQL_USER huser
-ENV LC_ALL en_US.UTF-8
+#设置免密登录
+ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
 
-RUN mkdir -p /var/lib/mysql \
-  && mkdir -p /var/log/mysql \
-  && chown mysql:mysql /var/log/mysql
+#将所需文件放到容器中
+COPY setup.sh /mysql/setup.sh
+COPY schema.sql /mysql/schema.sql
+COPY privileges.sql /mysql/privileges.sql
 
-VOLUME /var/lib/mysql
- 
-#初始化数据库
-ADD mysql_init.sh /root/mysql_init.sh
-RUN chmod 775 /root/mysql_init.sh
-RUN /root/mysql_init.sh
- 
-#导出端口
-EXPOSE 3306
- 
-#添加启动文件
-ADD mysql_run.sh /root/run.sh
-RUN chmod 775 /root/run.sh
- 
-#设置默认启动命令
-CMD ["/root/run.sh"]
+#设置容器启动时执行的命令
+CMD ["sh", "/mysql/setup.sh"]
