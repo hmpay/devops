@@ -22,22 +22,12 @@ Here is a big, complex system. Below is the deploy detail diagram.
 
 <img width="100%" src="./docs/assets/deploy-detail.png">
 
-## Common Commands
+## Steps for how to init env for all machines
 
++ Execute [MachineInit.sh](./src/init/MachineInit.sh) for all machines(make sure the network is available) in aliyun batch console.
 
-```sh
-# open the firewall service
-systemctl start firewalld
++ 
 
-# stop the firewall service
-systemctl stop firewalld
-
-# view the open port list
-firewall-cmd --zone=public --list-ports
-
-# restart docker server
-systemctl restart docker
-```
 
 ## Host Machine Expose Port Rules
 
@@ -73,15 +63,11 @@ eg.
 
 service-name      | port
 ---               | ---
-ops-nginx         | 9011
-ops-nexus         | 9021
-ops-jekins        | 9011
-ops-nexus-docker  | 9032
+
 
 ## Steps for how to init machines
 
 ### Init Git, SSH Login And User for jumping Machine
-
 
 ```sh
 # login from from cloud console and execute.
@@ -215,6 +201,20 @@ docker node update --label-add biz_layer=base hm-base
 docker node update --label-add biz_layer=db hm-db
 ```
 
+### Login Docker User for all machines
+
+> we can also to execute this commands by aliyun batch-commands.
+
+```sh
+# private network
+su huser
+docker login -u alexhippo@163.com registry-vpc.cn-shanghai.aliyuncs.com -p hYdQ6mDmex8EjyaW
+```
+
+> this public network address is registry.cn-shanghai.aliyuncs.com
+> you can add it for local development.
+> docker login --username=alexhippo@163.com registry.cn-shanghai.aliyuncs.com -p xxxxx
+
 ### :book: Init Nexus3 for `hm-ops` machine
 
 ```sh
@@ -261,20 +261,14 @@ cat ~/jenkins-data/secrets/initialAdminPassword
 
 ## CD Pipeline
 
-### how to build and push docker image to aliyun docker repository 
+### how to build and push docker image to aliyun docker repository
 
 ```sh
-# public network
-docker login --username=alexhippo@163.com registry.cn-shanghai.aliyuncs.com
 
-# private network
-docker login --username=alexhippo@163.com registry-vpc.cn-shanghai.aliyuncs.com
+# we can also use git commit-id as ver
+docker build -t registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:${GIT_COMMIT::8} .
 
-# docker login passwd hYdQ6mDmex8EjyaW
-
-docker build -t registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1 .
-
-docker push registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1
+docker push registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:${GIT_COMMIT::8}
 
 # deploy cluster
 
