@@ -18,7 +18,7 @@ services:
     ports:
       - "9021:8081"
       - "9022:5000"
-    volumes: 
+    volumes:
       - /nexus-data
     deploy:
       mode: global

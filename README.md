@@ -259,6 +259,22 @@ cat ~/jenkins-data/secrets/initialAdminPassword
 > :pencil2: Exercise:
 > @alex
 
+## CD Pipeline
+
+### how to build and push docker image to aliyun docker repository 
+
+```sh
+# public network
+docker login --username=alexhippo@163.com registry.cn-shanghai.aliyuncs.com
+
+# private network
+docker login --username=alexhippo@163.com registry-vpc.cn-shanghai.aliyuncs.com
+
+docker build -t registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1 .
+
+docker push registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1
+```
+
 ## Maintainers
 
 [@alex.zhang](https://github.com/alex.zhang)

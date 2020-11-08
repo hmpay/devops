@@ -14,7 +14,7 @@ services:
         condition: on-failure
   # --
   oracle11g:
-    image: hmpay/oracle11g:v1
+    image: registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1
     ports:
        - "1521:1521"
     deploy:
