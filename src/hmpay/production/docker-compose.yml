@@ -4,10 +4,7 @@ services:
     image: nginx
     ports:
       - "50011:80"
-    environment:
-      - NGINX_HOST: ${API_NGINX_HOST_NAME}
     deploy:
-      endpoint_mode: dnsrr
       mode: replicated
       placement:
         constraints:
@@ -15,5 +12,4 @@ services:
       replicas: 2
       restart_policy:
         condition: on-failure
-
 
