@@ -7,7 +7,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/www:/etc/nginx/conf.d
-      - ./nginx/www/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     # environment:
     #   - NGINX_HOST: "ops"
     deploy:
