@@ -19,7 +19,7 @@ services:
       - "9021:8081"
       - "9022:5000"
     volumes:
-      - /nexus-data
+      - ~/nexus-data:/nexus-data
     deploy:
       mode: global
   # https://hub.docker.com/r/jenkinszh/jenkins-zh      
@@ -29,6 +29,7 @@ services:
       - "9031:8080"
       - "9032:50000"
     volumes: 
-      - /var/jenkins_home
+      - ~/jenkins-data:/var/jenkins_home
+      - /etc/localtime:/etc/localtime
     deploy:
       mode: global
