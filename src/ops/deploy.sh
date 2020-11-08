@@ -9,6 +9,7 @@ for path in ${initDirArr[@]}
 do
   if [ ! -d $path ]; then
     mkdir ${path}
+    chmod 777 ${path}
   fi
 done
 
