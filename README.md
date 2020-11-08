@@ -26,7 +26,11 @@ Here is a big, complex system. Below is the deploy detail diagram.
 
 + Execute [MachineInit.sh](./src/init/MachineInit.sh) for all machines(make sure the network is available) in aliyun batch console.
 
-+ 
+```sh
+OPS_SSH_Public_key="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iX7NnrGzXRS4tgeZlmAPCTEDXAO3FtaMSUGu7yuF4WFQXk6W6LSLDNx0/IHevkL5tP56qPVa4VGzTYv1AVF7Q8Q8nDPAph//VxduNx/oOQKzqOb5MhcX40nYrFIwWczk1PWnlChMdjdg1eJ1vFFvybcmVBhvxrBzA5tetGGnN63WMUQAxdgHVTXz0z8KVa3bhQqRK/58PtJbanYxv+SI0exMzb4sreTf/wMnpSKGcIiUwX9/lIlO3oIXMWkVn7mV+6MbjhzNk+mAK0ntMJ44FA7bNqAQDAMLaPuJxtBMksvHBj6t5EnoBEw12oq/cxc3iUMd7I2cKkeiVmtzBu5H" \
+OPS_USER_NAME="huser" \
+sh -c "$(curl -fsSL https://4b055d6dc050.ngrok.io/src/init/MachineInit.sh)"
+```
 
 
 ## Host Machine Expose Port Rules
@@ -64,30 +68,6 @@ eg.
 service-name      | port
 ---               | ---
 
-
-## Steps for how to init machines
-
-### Init Git, SSH Login And User for jumping Machine
-
-```sh
-# login from from cloud console and execute.
-cat "xxxxxxx" > /root/.ssh/authorized_keys
-
-# generate ssh key for root user
-ssh-keygen -t rsa
-
-# add huser
-useradd huser;groupadd huser
-su huser
-# generate ssh key for huser user
-ssh-keygen -t rsa
-
-cat "xxxxxxx" > /home/huser/.ssh/authorized_keys
-
-
-yum install git -y
-```
-
 > login to other machines that can ssh login from jumping machine.
 
 #### Init the ssh config for `huser` user for jumping Machine1
@@ -116,35 +96,6 @@ User huser" > /home/huser/.ssh/config
 chmod 600 /home/huser/.ssh/config
 ```
 
-### Init `huser` user for all machines
-
-> add the huser from cloud console
-```sh
-
-rm -rf /root/.ssh/authorized_keys
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDv4961KtLBq9L2KY3VeB1U4Th8gOqHjvnpMJSV8SDyLDGTa5sYKp6ZDn3gVp4X7NUhI8zGZ7PE3CEIygi86jfa4S6Pwe4gQV7dE7KQWJ+j36Zw+rU1YoYIkHfGWfzOcWL1/TFkTdYaNxj+nAeUAEF1lRAD5jmv9hw7ZICDrUYQLYGY1l81ogyPUI9YM5STn3F+ZeqX9Foj5gqB2XfgLw1WIANT9A2yu8oGeD3nu5TZGIVafvZFA7f/wfmndtDlVW3nR+5Ebe71v8tqGHc3ZhNViElS0/1jTJpczCEW3XE5WOAwNBirV+1lKQ9ov1ktekDYPEEtID3TJjT1kD9mPzSqGRZC5Ikp3bDkBqMeZOOA3g63ckfWr7+6HEUxrvgs1kJygIc+GbFEgZtiTIVwyygLC9rCZFLbQbgK87sz7J1tTK6roPCP8d3RVAmKRo0tCkGzoFNRdS8PXRQnTdwEEA1U4ZNp/QV8X3zxVtgE87FMUp09lqdIGCanBZmUYL0i/us= root@iZuf6dcz9uks340jahtx57Z" > /root/.ssh/authorized_keys
-
-useradd huser;groupadd huser
-su huser
-mkdir /home/huser/.ssh
-rm -rf /home/huser/.ssh/authorized_keys
-echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIOs9Y7Eb4BRwtx53zW2RLW9Hei+3lvi53p0vDMwKGuiBfsRfeuGrMqviiONLJy5t18ST0ghYwJpY4xUSXTERCaOK1oluhMC8a2XzBc4lPi18T1dZ9wapy4zTmwcKwnpuzty/qBzDghHOCctUGhGynQW9e0zVlkJ0tqupGBKdcFrnAtQdvRkDEfy9D/PAyAlFmxtVUXgX3Af6p4LZv4aoZcncjh3KyYe7cewrCTSWbchgyqDg5Kh5oKMPhfUCjyjR3LneubGpWquWUMgUI4069QwsbfvigeTro65W7ZY/4ETyJJ2YM6v9RTlcg9+iIppuOiViDOKGIFDw4H8cHTtvt097ADqv7dnWL5uZsCGEKcT/uA37tZx7uT6i8U5p8qS91Gov6F6+f3xMkTD4mOsJxjIkfrK5YCQWC/Cxhk9xfTi9hkki85Sxa8V5RiCbhHoU8vGIbVD+MY1ZAoF+7YfBT9zG4N5cOIuWMxSAor5UxB1Q1MYTdjC1jRpT6WpgjdaM= huser@iZuf6dcz9uks340jahtx57Z" > /home/huser/.ssh/authorized_keys
-
-chmod 600 /home/huser/.ssh/authorized_keys
-
-add `huser` to sudoers file
-```
-
-```sh
-vi /etc/sudoers
-
-# below root    ALL=(ALL)       ALL
-huser   ALL=(ALL)       ALL
-
-# set the machine hostname
-hostnamectl set-hostname xxx
-```
-
 ### Login `huser` for all machine from jumping machine
 
 ```sh
@@ -161,26 +112,6 @@ ssh hm-api
 
 ### Init Docker Env for all machines
 
-```sh
-sudo yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-engine
-
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install -y docker-ce docker-ce-cli containerd.io
-sudo systemctl start docker
-
-# add huser to docker group
-sudo gpasswd -a huser docker
-newgrp docker
-docker run hello-world
-```
 
 ```sh
 # goto hm-slb machine
@@ -214,25 +145,6 @@ docker login -u alexhippo@163.com registry-vpc.cn-shanghai.aliyuncs.com -p hYdQ6
 > this public network address is registry.cn-shanghai.aliyuncs.com
 > you can add it for local development.
 > docker login --username=alexhippo@163.com registry.cn-shanghai.aliyuncs.com -p xxxxx
-
-### :book: Init Nexus3 for `hm-ops` machine
-
-```sh
-# goto hm-ops
-
-# pull the nexus3 image
-docker pull sonatype/nexus3
-# prepare for mount data dir
-rm -rf ~/nexus-data
-
-docker run -d -p 8081:8081 --name nexus3 -v ~/nexus-data --restart=always sonatype/nexus3
-
-# enter container inner
-docker exec -it  4e6a7bd6289d /bin/sh
-
-# cat the passwd for UI login
-cat ~/nexus-data/admin.password
-```
 
 > :pencil2: Exercise:
 > @alex
