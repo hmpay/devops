@@ -24,7 +24,7 @@ services:
       mode: global
   # https://hub.docker.com/r/jenkinszh/jenkins-zh      
   jenkins:
-    image: jenkinszh/jenkins-zh:lts
+    image: jenkinsci/blueocean
     ports:
       - "9031:8080"
       - "9032:50000"
