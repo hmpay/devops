@@ -8,8 +8,8 @@ services:
     volumes:
       - ./nginx/www:/etc/nginx/conf.d
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    # environment:
-    #   - NGINX_HOST: "ops"
+    environment:
+      TZ : 'Asia/Shanghai'
     deploy:
       mode: global
   # https://hub.docker.com/r/sonatype/nexus3      
