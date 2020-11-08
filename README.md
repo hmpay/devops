@@ -270,9 +270,19 @@ docker login --username=alexhippo@163.com registry.cn-shanghai.aliyuncs.com
 # private network
 docker login --username=alexhippo@163.com registry-vpc.cn-shanghai.aliyuncs.com
 
+# docker login passwd hYdQ6mDmex8EjyaW
+
 docker build -t registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1 .
 
 docker push registry-vpc.cn-shanghai.aliyuncs.com/hmpay/oracle:v1
+
+# deploy cluster
+
+# for trade deploy
+docker stack deploy -c /home/huser/devops/src/hmpay/production/docker-compose.yml stack-trade
+
+# for ops deploy
+docker stack deploy -c /home/huser/devops/src/ops/docker-compose.yml ops-stack
 ```
 
 ## Maintainers
