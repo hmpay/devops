@@ -22,7 +22,6 @@ services:
       placement:
         constraints:
           - node.labels.biz_layer==db
-      replicas: 1
     volumes:
       - ~/oracleInstaller:/install
       - ~/oracle_dpdump:/opt/oracle/dpdump
