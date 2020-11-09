@@ -29,7 +29,7 @@ Here is a big, complex system. Below is the deploy detail diagram.
 ```sh
 OPS_SSH_Public_key="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iX7NnrGzXRS4tgeZlmAPCTEDXAO3FtaMSUGu7yuF4WFQXk6W6LSLDNx0/IHevkL5tP56qPVa4VGzTYv1AVF7Q8Q8nDPAph//VxduNx/oOQKzqOb5MhcX40nYrFIwWczk1PWnlChMdjdg1eJ1vFFvybcmVBhvxrBzA5tetGGnN63WMUQAxdgHVTXz0z8KVa3bhQqRK/58PtJbanYxv+SI0exMzb4sreTf/wMnpSKGcIiUwX9/lIlO3oIXMWkVn7mV+6MbjhzNk+mAK0ntMJ44FA7bNqAQDAMLaPuJxtBMksvHBj6t5EnoBEw12oq/cxc3iUMd7I2cKkeiVmtzBu5H" \
 OPS_USER_NAME="huser" \
-sh -c "$(curl -fsSL https://4b055d6dc050.ngrok.io/src/init/MachineInit.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/hmpay/mainchine-init-shell/main/MachineInit.sh)"
 ```
 
 
